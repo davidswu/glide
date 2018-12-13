@@ -48,6 +48,9 @@ func walkDeps(b *util.BuildCtxt, base, myName string) []string {
 		if err != nil {
 			return err
 		}
+		if fi == nil {
+			return nil
+		}
 
 		if !dependency.IsSrcDir(fi) {
 			if fi.IsDir() {

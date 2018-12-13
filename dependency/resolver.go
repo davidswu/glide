@@ -270,6 +270,9 @@ func (r *Resolver) ResolveLocal(deep bool) ([]string, []string, error) {
 		if err != nil && err != filepath.SkipDir {
 			return err
 		}
+		if fi == nil {
+			return nil
+		}
 		pt := strings.TrimPrefix(path, r.basedir+string(os.PathSeparator))
 		pt = strings.TrimSuffix(pt, string(os.PathSeparator))
 		if r.Config.HasExclude(pt) {
@@ -699,6 +702,9 @@ func (r *Resolver) resolveList(queue *list.List, testDeps, addTest bool) ([]stri
 		err := filepath.Walk(pkgPath, func(path string, fi os.FileInfo, err error) error {
 			if err != nil && err != filepath.SkipDir {
 				return err
+			}
+			if fi == nil {
+				return nil
 			}
 
 			// Skip files.
